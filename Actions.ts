@@ -11,12 +11,12 @@ export abstract class Action {
 
 export class ExampleAction extends Action {
 	public name = 'Example';
+	private progress:number = 0;
 
 	public CheckPrereqs():boolean {
 		return true;
 	}
 
-	private progress:number = 0;
 	public Process(resolve, reject):void {
 		if (this.progress < 100){
 			this.progress += 1;

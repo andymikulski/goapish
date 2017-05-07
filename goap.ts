@@ -26,37 +26,30 @@ const renderer = new WorldRenderer(world);
 worldTick();
 
 const apple:Apple = new Apple(new Point(1,1));
-const agent:Agent = new Agent(world, new Point(0,0));
-
 world.SetEntity(apple);
+
+const agent:Agent = new Agent(world, new Point(10, 10));
 world.SetEntity(agent);
 
-agent.location = new Point(10,10);
-world.SetEntity(agent);
 
-setTimeout(()=>{
-	console.log('adding move action');
-	agent.AddAction(
-		new MoveAction(apple.location, agent, world),
-		new ExampleAction(),
+const secondAgent:Agent = new Agent(world, new Point(5,5));
+world.SetEntity(secondAgent);
 
-	);
-}, 5000);
+agent.AddAction(
+	new MoveAction(apple.location, agent, world),
+	new ExampleAction(),
+	new MoveAction(new Point(5,6), agent, world),
+	new ExampleAction(),
+	new MoveAction(new Point(10,2), agent, world),
+	new ExampleAction(),
+	new MoveAction(new Point(1,2), agent, world)
+);
 
-// // setTimeout(()=>{
-// // 	setTimeout(()=>{
-// // 		agent.location = new Point(2,3);
-// // 		world.SetEntity(agent);
-
-// // 		setTimeout(()=>{
-// // 			apple.location = new Point(10,10);
-// // 			world.SetEntity(apple);
-
-// // 			setTimeout(()=>{
-// // 				agent.location = new Point(9,10);
-
-
-// // 			}, 2000);
-// // 		}, 2000);
-// // 	}, 2000);
-// // }, 2000);
+secondAgent.AddAction(
+	new ExampleAction(),
+	new MoveAction(new Point(10, 10), secondAgent, world),
+	new MoveAction(apple.location, secondAgent, world),
+	new MoveAction(new Point(1,1), secondAgent, world),
+	new ExampleAction(),
+	new MoveAction(new Point(10, 1), secondAgent, world)
+);
