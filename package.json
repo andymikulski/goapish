@@ -1,0 +1,16 @@
+{
+  "name": "goap",
+  "version": "1.0.0",
+  "description": "",
+  "main": "goap.js",
+  "scripts": {
+    "start": "tsc goap.ts  --watch --lib ES2017,DOM --module es2015 & rollup goap.js -w -o build.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "rollup": "^0.41.6",
+    "rollup-watch": "^3.2.2",
+    "typescript": "^2.3.2"
+  }
+}
