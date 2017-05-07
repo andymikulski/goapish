@@ -16,9 +16,15 @@ export default class WorldRenderer {
 
 		const observed = {}
 
+		const agents = [];
+
 		ents.forEach((entity:WorldEntity)=>{
 			observed[entity.location.x] = observed[entity.location.x] || {};
-			observed[entity.location.x][entity.location.y] = entity.type.join('')[0];
+			observed[entity.location.x][entity.location.y] = entity.tags.join('')[0];
+
+			if (entity.tags.indexOf('Agent') > -1){
+				agents.push(entity.location);
+			}
 		});
 
 		let printed = [];
@@ -26,7 +32,7 @@ export default class WorldRenderer {
 		for(let i = 0; i < 15; i++){
 			let row = '';
 			for(let j = 0; j < 15; j++){
-				let observedHere = observed[i] && observed[i][j];
+				let observedHere = observed[j] && observed[j][i];
 
 				if (i === 0 && j === 0){
 					observedHere = `ø`;
@@ -34,6 +40,16 @@ export default class WorldRenderer {
 
 				if (!observedHere) {
 					observedHere = '░';
+
+					agents.some((agentLocation)=>{
+						if(Point.Distance(new Point(j, i), agentLocation) <= 2) {
+							if (!this.world.HasEntitiesAtPoint(new Point(j, i))){
+								observedHere = '▒';
+							}
+							return true;
+						}
+						return false;
+					});
 				}
 
 				row = `${row}${observedHere}`;

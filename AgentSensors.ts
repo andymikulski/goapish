@@ -8,7 +8,7 @@ export class FoodSensor extends Sensor {
 	}
 
 	Process():void {
-		const foodNearby = this.world.GetEntitiesOfType(['Food'], this.agent.location, 2);
+		const foodNearby = this.world.GetEntitiesOfTags(['Food'], this.agent.location, 2);
 
 		foodNearby.forEach((foodEnt)=>{
 			this.updates = {
@@ -28,7 +28,7 @@ export class AgentSensor extends Sensor {
 	}
 
 	Process():void {
-		const agentsNearby = this.world.GetEntitiesOfType(['Agent'], this.agent.location, 2);
+		const agentsNearby = this.world.GetEntitiesOfTags(['Agent'], this.agent.location, 2);
 
 		agentsNearby.forEach((agentEntity)=>{
 			if (agentEntity.id !== this.agent.id) {

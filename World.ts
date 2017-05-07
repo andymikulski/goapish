@@ -3,7 +3,7 @@ import Point from './Point';
 export interface WorldEntity {
 	id: string,
 	location: Point,
-	type: string[],
+	tags: string[],
 	tick?: Function,
 };
 
@@ -42,25 +42,27 @@ export class World {
 		return nearby;
 	}
 
-	public GetEntitiesAtPoint(where:Point, type?:string[]):WorldEntity[] {
-		if (typeof type !== 'undefined'){
-			return this.GetEntitiesOfType(type, where, 0);
+	public GetEntitiesAtPoint(where:Point, tags?:string[]):WorldEntity[] {
+		if (typeof tags !== 'undefined'){
+			return this.GetEntitiesOfTags(tags, where, 0);
 		} else {
 			return this.GetEntitiesAround(where, 0);
 		}
 	}
 
-	public HasEntitiesAtPoint(where:Point, type?:string[]):boolean {
-		if (typeof type !== 'undefined'){
-			return this.GetEntitiesOfType(type, where, 0).length > 0;
+	public HasEntitiesAtPoint(where:Point, tags?:string[]):boolean {
+		if (typeof tags !== 'undefined'){
+			return this.GetEntitiesOfTags(tags, where, 0).length > 0;
 		} else {
 			return this.GetEntitiesAround(where, 0).length > 0;
 		}
 	}
 
-	public GetEntitiesOfType(desiredType:string[], where:Point, radius:number) {
+	public GetEntitiesOfTags(desiredTags:string[], where:Point, radius:number) {
 		let nearby = this.GetEntitiesAround(where, radius);
 
-		return nearby.filter(ent => ent.type.some(val => desiredType.indexOf(val) > -1));
+		return nearby.filter((ent:WorldEntity) =>
+			ent.tags.some(val => desiredTags.indexOf(val) > -1)
+		);
 	}
 }

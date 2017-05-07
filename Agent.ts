@@ -10,7 +10,7 @@ import {Action, IdleAction} from './Actions';
 
 
 export default class Agent implements WorldEntity {
-	public type: string[] = ['Agent', 'Impassible'];
+	public tags: string[] = ['Agent', 'Impassible'];
 	private memory:Memory = new Memory();
 	private inventory:Backpack = new Backpack();
 	private name:string = 'Johnny Five';
@@ -54,6 +54,12 @@ export default class Agent implements WorldEntity {
 	}
 
 	onActionComplete() {
+		// dont love this - persists the list if the only thing in the action queue is to Idle
+		// this basically prevents from creating a new IdleAction on every tick
+		if (this.actionQueue[0].name === 'Idle' && this.actionQueue.length <= 1){
+			return;
+		}
+
 		this.actionQueue.shift();
 	}
 

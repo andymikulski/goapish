@@ -78,29 +78,38 @@ export class MoveAction extends Action {
 			return;
 		}
 
-		if (this.throttle(1000, deltaTime)){
+		if (this.throttle(250, deltaTime)){
 			return;
 		}
 
+		let hasMoved = false;
 		let nextPoint = this.agent.location.clone();
 
-		if (nextPoint.x < this.destination.x) {
-			if (!this.world.HasEntitiesAtPoint(nextPoint.plus(new Point(1, 0)), ['Impassible'])){
-				nextPoint = nextPoint.plus(new Point(1, 0));
-			}
-		} else if (nextPoint.x > this.destination.x) {
-			if (!this.world.HasEntitiesAtPoint(nextPoint.plus(new Point(-1, 0)), ['Impassible'])){
-				nextPoint = nextPoint.plus(new Point(-1, 0));
+		let xFirst = Math.random() < 0.5;
+
+		if (xFirst) {
+			if (nextPoint.x < this.destination.x) {
+				if (!this.world.HasEntitiesAtPoint(nextPoint.plus(new Point(1, 0)), ['Impassible'])){
+					nextPoint = nextPoint.plus(new Point(1, 0));
+					hasMoved = true;
+				}
+			} else if (nextPoint.x > this.destination.x) {
+				if (!this.world.HasEntitiesAtPoint(nextPoint.plus(new Point(-1, 0)), ['Impassible'])){
+					nextPoint = nextPoint.plus(new Point(-1, 0));
+					hasMoved = true;
+				}
 			}
 		}
 
-		if (nextPoint.y < this.destination.y) {
-			if (!this.world.HasEntitiesAtPoint(nextPoint.plus(new Point(0, 1)), ['Impassible'])){
-				nextPoint = nextPoint.plus(new Point(0, 1));
-			}
-		} else if (nextPoint.y > this.destination.y) {
-			if (!this.world.HasEntitiesAtPoint(nextPoint.plus(new Point(0, -1)), ['Impassible'])){
-				nextPoint = nextPoint.plus(new Point(0, -1));
+		if (!hasMoved) {
+			if (nextPoint.y < this.destination.y) {
+				if (!this.world.HasEntitiesAtPoint(nextPoint.plus(new Point(0, 1)), ['Impassible'])){
+					nextPoint = nextPoint.plus(new Point(0, 1));
+				}
+			} else if (nextPoint.y > this.destination.y) {
+				if (!this.world.HasEntitiesAtPoint(nextPoint.plus(new Point(0, -1)), ['Impassible'])){
+					nextPoint = nextPoint.plus(new Point(0, -1));
+				}
 			}
 		}
 
