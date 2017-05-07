@@ -29,7 +29,7 @@ export class World {
 		return this.entities.hasOwnProperty(entityId);
 	}
 
-	public GetEntitiesAround(where:Point, radius: number = 1) {
+	public GetEntitiesAround(where:Point, radius: number = 1):WorldEntity[] {
 		let nearby = [];
 
 		for(const id in this.entities){
@@ -40,6 +40,22 @@ export class World {
 		}
 
 		return nearby;
+	}
+
+	public GetEntitiesAtPoint(where:Point, type?:string[]):WorldEntity[] {
+		if (typeof type !== 'undefined'){
+			return this.GetEntitiesOfType(type, where, 0);
+		} else {
+			return this.GetEntitiesAround(where, 0);
+		}
+	}
+
+	public HasEntitiesAtPoint(where:Point, type?:string[]):boolean {
+		if (typeof type !== 'undefined'){
+			return this.GetEntitiesOfType(type, where, 0).length > 0;
+		} else {
+			return this.GetEntitiesAround(where, 0).length > 0;
+		}
 	}
 
 	public GetEntitiesOfType(desiredType:string[], where:Point, radius:number) {

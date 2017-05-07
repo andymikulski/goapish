@@ -6,14 +6,20 @@ import WorldRenderer from './WorldRenderer';
 import {MoveAction, ExampleAction} from './Actions';
 
 
+let lastTick:number;
+let deltaTime:number;
+
 const worldTick = ()=>{
+	lastTick = lastTick ? Date.now() - lastTick : 0;
 	world.GetAllEntities().forEach((entity:WorldEntity)=>{
 		if (entity.tick){
-			entity.tick();
+			entity.tick(lastTick);
 		}
 	});
 
 	renderer.render();
+
+	lastTick = Date.now();
 	requestAnimationFrame(worldTick);
 };
 
@@ -25,10 +31,10 @@ const renderer = new WorldRenderer(world);
 
 worldTick();
 
-const apple:Apple = new Apple(new Point(1,1));
+const apple:Apple = new Apple(new Point(10,10));
 world.SetEntity(apple);
 
-const agent:Agent = new Agent(world, new Point(10, 10));
+const agent:Agent = new Agent(world, new Point(1, 1));
 world.SetEntity(agent);
 
 
@@ -36,20 +42,9 @@ const secondAgent:Agent = new Agent(world, new Point(5,5));
 world.SetEntity(secondAgent);
 
 agent.AddAction(
+	new ExampleAction(),
 	new MoveAction(apple.location, agent, world),
 	new ExampleAction(),
-	new MoveAction(new Point(5,6), agent, world),
+	new MoveAction(secondAgent.location, agent, world),
 	new ExampleAction(),
-	new MoveAction(new Point(10,2), agent, world),
-	new ExampleAction(),
-	new MoveAction(new Point(1,2), agent, world)
-);
-
-secondAgent.AddAction(
-	new ExampleAction(),
-	new MoveAction(new Point(10, 10), secondAgent, world),
-	new MoveAction(apple.location, secondAgent, world),
-	new MoveAction(new Point(1,1), secondAgent, world),
-	new ExampleAction(),
-	new MoveAction(new Point(10, 1), secondAgent, world)
 );

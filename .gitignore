@@ -2,7 +2,8 @@
 *.sublime-workspace
 
 *.js
-ts-built
+ts-built/
+ts-built/*.*
 
 # Logs
 logs

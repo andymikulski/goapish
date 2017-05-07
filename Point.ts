@@ -9,6 +9,10 @@ export default class Point {
 		return (one.x === another.x) && (one.y === another.y);
 	}
 
+	static Plus(one:Point, another:Point):Point {
+		return new Point(one.x + another.x, one.y + another.y);
+	}
+
 	distanceTo(other: Point) {
 		return Point.Distance(this, other);
 	}
@@ -16,8 +20,11 @@ export default class Point {
 		return `${this.x}, ${this.y}`;
 	}
 
+	plus(other: Point) {
+		return Point.Plus(this, other);
+	}
+
 	clone():Point {
 		return new Point(this.x, this.y);
 	}
-
 };

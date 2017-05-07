@@ -29,7 +29,7 @@ export default class WorldRenderer {
 				let observedHere = observed[i] && observed[i][j];
 
 				if (i === 0 && j === 0){
-					observedHere = `▚`;
+					observedHere = `ø`;
 				}
 
 				if (!observedHere) {
